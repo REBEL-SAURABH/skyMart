@@ -1,13 +1,14 @@
-import { Eye, Mail, Lock } from "lucide-react";
+import { Eye, Mail, Lock, EyeOff } from "lucide-react";
  import { ToastContainer, toast } from 'react-toastify';
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { MyStore } from "../contex/MyContext";
 
 const Login = () => {
 
-  const {LoginUser , setLoginUser  , registerUser} = useContext(MyStore)
+  const {LoginUser , setLoginUser  , registerUser} = useContext(MyStore);
+  const [showPassword, setShowPassword] = useState(false);
 
 
   const Navigate = useNavigate();
@@ -78,21 +79,37 @@ const Login = () => {
           <Lock className="text-gray-500" size={20} />
 
           <input
-           {...register('password' , 
-                  {required : 'password is required' ,
-                    minLength: {
-    value: 6,
-    message: "minimum 6 digit required",
-  },
+          {...register("password", {
+              required: "Password is required",
+              minLength: {
+                 value: 6,
+              message: "Minimum 6 characters required",
+              },
+             })}
+             type={showPassword ? "text" : "password"}
+             placeholder="Password"
+             className="bg-transparent outline-none w-full ml-3 placeholder-gray-500"
+           />
 
-  
-                  } ) }
-            type="password"
-            placeholder="Password"
-            className="bg-transparent outline-none w-full ml-3 placeholder-gray-500"
+         {showPassword ? (
+          <EyeOff
+          onClick={() => {
+      console.log('clickde');
+      setShowPassword(true)}}
+            className="text-gray-500 cursor-pointer"
+            size={20}
+            onClick={() => setShowPassword(false)}
           />
-
-          <Eye className="text-gray-500 cursor-pointer" size={20} />
+        ) : (
+          <Eye
+          onClick={() => {
+      console.log('clickde');
+      setShowPassword(true)}}
+            className="text-gray-500 cursor-pointer"
+            size={20}
+    
+          />
+        )}
         </div>
         {errors.password && <p className='text-red-500'>{errors.password.message}</p>}
 

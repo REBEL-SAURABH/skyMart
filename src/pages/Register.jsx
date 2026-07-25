@@ -1,4 +1,4 @@
-import { ArrowRight, Bolt, Eye, Mail, User } from 'lucide-react'
+import { ArrowRight, Bolt, Eye, EyeOff, Mail, User } from 'lucide-react'
 import React, { useContext, useState } from 'react'
 import { useFormAction, useNavigate } from 'react-router'
 import { MyStore } from '../contex/MyContext'
@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form'
 
 const Register = () => {
 
+
+  const [showPassword, setShowPassword] = useState(false);
   let {registerUser , setRegisterUser, setLoginUser} = useContext(MyStore);
  
   const Navigate = useNavigate();
@@ -119,26 +121,39 @@ const Register = () => {
           
 
               <input
-              {...register('password' , 
-                  {required : 'password is required' ,
-                    minLength: {
-    value: 6,
-    message: "minimum 6 digit required",
-  },
+          {...register("password", {
+              required: "Password is required",
+              minLength: {
+                 value: 6,
+              message: "Minimum 6 characters required",
+              },
+             })}
+             type={showPassword ? "text" : "password"}
+             placeholder="Password"
+             className="bg-transparent outline-none w-full ml-3 placeholder-gray-500"
+           />
 
-  
-                  } ) }
-                type="password"
-                placeholder="Password (min 6 chars)"
-                className="bg-transparent ml-3 w-full outline-none text-white placeholder:text-gray-500"
-              />
-
-
-              <Eye
-                size={19}
-                className="text-gray-500 cursor-pointer"
-              />
-              {errors.password && <p className='text-red-500'>{errors.password.message}</p>}
+         {showPassword ? (
+          <EyeOff
+          onClick={() => {
+            console.log('clickde');
+            setShowPassword(true)}}
+                  className="text-gray-500 cursor-pointer"
+                  size={20}
+                  onClick={() => setShowPassword(false)}
+                />
+              ) : (
+                <Eye
+                onClick={() => {
+            console.log('clickde');
+            setShowPassword(true)}}
+            className="text-gray-500 cursor-pointer"
+            size={20}
+    
+            />
+              )}
+        
+        {errors.password && <p className='text-red-500'>{errors.password.message}</p>}
 
             </div>
 
